@@ -1,3 +1,10 @@
+// Command example
+
+// VOLTage:
+// DC:RANGe { <range> | Minimum | Maximum }
+
+// флэшка: /dev/sdb
+
 #include <stdio.h>
 #include <unistd.h>
 #include <fcntl.h>
@@ -11,6 +18,8 @@
 int main(int argc, char **argv)
 {
     const char *filename;
+    //char *filename[20]; //ok
+
     int fd;
     int rc;
 
@@ -32,6 +41,7 @@ int main(int argc, char **argv)
         perror("Error opening output file");
         //return 1;
     }
+    else{
 
 
     // SCAN USB DEVICE
@@ -44,6 +54,7 @@ int main(int argc, char **argv)
 
     scan = fread(buf, sz, sz_t, fd);
 
+    }
     // COMMAND
 
     //fwrite()
