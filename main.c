@@ -1,20 +1,38 @@
-// g++ source.cpp `pkg-config --libs --cflags libusb-1.0`
+#include <stdio.h>
+#include <unistd.h>
+#include <fcntl.h>
+#include <errno.h>
+#include <sys/ioctl.h>
 
-//b#include "/usr/include/libusb-1.0/libusb.h"
-
-#include "libusb.h"
-//#include <linux/usb/>
-
-#include <linux/module.h>
 #include <linux/usbdevice_fs.h>
-#include <linux/kernel.h>
-#include <linux/usb.h>
 
-int main(int argc, char *argv[])
+
+int main(int argc, char **argv)
 {
+    const char *filename;
+    int fd;
+    int rc;
 
-    libusb_init(NULL);
+    if (argc != 2) {
+        fprintf(stderr, "Usage: usbreset device-filename\n");
+        return 1;
+    }
+    filename = argv[1];
 
-    printf("Hello World!\n");
+    fd = open(filename, O_WRONLY);
+    if (fd < 0) {
+        perror("Error opening output file");
+        return 1;
+    }
+
+    printf("Resetting USB device %s\n", filename);
+    rc = ioctl(fd, USBDEVFS_RESET, 0);
+    if (rc < 0) {
+        perror("Error in ioctl");
+        return 1;
+    }
+    printf("Reset successful\n");
+
+    close(fd);
     return 0;
 }
