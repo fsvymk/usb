@@ -3,7 +3,9 @@
 // VOLTage:
 // DC:RANGe { <range> | Minimum | Maximum }
 
-// флэшка: /dev/sdb
+// флэшка:      /dev/sdb
+
+// Вольтметр:   /dev/usbtmc0
 
 #include <stdio.h>
 #include <unistd.h>
@@ -17,7 +19,8 @@
 
 int main(int argc, char **argv)
 {
-    const char *filename = "/dev/sdb";
+    //const char *filename = "/dev/sdb";
+    const char *filename = "/dev/usbtmc0";
 
     int fd;
     int rc;
@@ -29,21 +32,29 @@ int main(int argc, char **argv)
     }
     else{
 
-        printf("Ok. ");
+    printf("Ok.\n");
+    // SEND COMMAND
+
+
+
+
     // SCAN USB DEVICE
 
-    char *buf = malloc(1024);
+    char *buf = malloc(512);
 
     size_t scan;
     size_t sz   = sizeof(buf);
     size_t sz_t = 1;
 
+    char *cmd1 = "VOLT:DC:RANG 10";
+
+    int sr = write(fd, cmd1, sizeof(cmd1));
+
     int ri = read(fd, buf, sz);
 
+    printf("buf size = %d\n", sizeof(&buf));
     }
     // COMMAND
-
-
 
     //fwrite()
 
