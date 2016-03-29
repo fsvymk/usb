@@ -5,6 +5,7 @@
 #include <sys/ioctl.h>
 
 #include <linux/usbdevice_fs.h>
+#include <malloc.h>
 
 
 int main(int argc, char **argv)
@@ -15,9 +16,16 @@ int main(int argc, char **argv)
 
     if (argc != 2) {
         fprintf(stderr, "Usage: usbreset device-filename\n");
-        return 1;
+
+        //return 1;
+        fprintf(stderr, "Now, input filename\n");
+
+        //KEYBOARD INPUT
+        scanf("%s",filename);
     }
-    filename = argv[1];
+    else{
+        filename = argv[1];
+    }
 
     fd = open(filename, O_WRONLY);
     if (fd < 0) {
@@ -26,9 +34,20 @@ int main(int argc, char **argv)
     }
 
 
+    // SCAN USB DEVICE
+
+    char *buf = malloc(1024);
+    size_t scan;
+
+    size_t sz   = sizeof(buf);
+    size_t sz_t = 1;
+
+    scan = fread(buf, sz, sz_t, fd);
+
+
     // COMMAND
 
-
+    //fwrite()
 
 
     // RESET
