@@ -30,7 +30,7 @@ int main(int argc, char **argv)
     fd = open(filename, O_WRONLY);
     if (fd < 0) {
         perror("Error opening output file");
-        return 1;
+        //return 1;
     }
 
 
@@ -44,11 +44,9 @@ int main(int argc, char **argv)
 
     scan = fread(buf, sz, sz_t, fd);
 
-
     // COMMAND
 
     //fwrite()
-
 
     // RESET
     printf("Resetting USB device %s\n", filename);
@@ -58,8 +56,6 @@ int main(int argc, char **argv)
         return 1;
     }
     printf("Reset successful\n");
-
-
 
     close(fd);
     return 0;
